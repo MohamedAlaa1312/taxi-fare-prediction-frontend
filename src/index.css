@@ -1,0 +1,238 @@
+@import "tailwindcss";
+
+/* ─── Design Tokens ───────────────────────────────────────────────── */
+:root {
+  --taxi-yellow: #f5c518;
+  --taxi-yellow-dim: #c99b00;
+  --neon-cyan: #00d4ff;
+  --neon-purple: #7c3aed;
+  --glass-bg: rgba(10, 12, 20, 0.75);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --panel-bg: rgba(8, 10, 18, 0.88);
+  --surface: rgba(20, 24, 40, 0.9);
+  --muted: rgba(160, 170, 200, 0.6);
+  --success: #10b981;
+  --danger: #ef4444;
+  --font-body: "Inter", sans-serif;
+  --font-display: "Space Grotesk", sans-serif;
+}
+
+/* ─── Base Reset ─────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  font-family: var(--font-body);
+  background: #080a12;
+  color: #e2e8f0;
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── Scrollbar ──────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(245, 197, 24, 0.3); border-radius: 4px; }
+
+/* ─── Leaflet overrides ──────────────────────────────────────────── */
+.leaflet-container {
+  background: #0d1117 !important;
+  font-family: var(--font-body) !important;
+}
+
+/* Popup styling */
+.leaflet-popup-content-wrapper {
+  background: rgba(10, 12, 20, 0.95) !important;
+  border: 1px solid var(--glass-border) !important;
+  border-radius: 12px !important;
+  backdrop-filter: blur(20px) !important;
+  color: #e2e8f0 !important;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5) !important;
+}
+.leaflet-popup-tip { background: rgba(10, 12, 20, 0.95) !important; }
+.leaflet-popup-close-button { color: #94a3b8 !important; font-size: 18px !important; }
+
+/* Attribution */
+.leaflet-control-attribution {
+  background: rgba(8, 10, 18, 0.7) !important;
+  color: rgba(148, 163, 184, 0.5) !important;
+  font-size: 9px !important;
+  backdrop-filter: blur(8px);
+}
+.leaflet-control-attribution a { color: rgba(245, 197, 24, 0.5) !important; }
+
+/* Zoom controls */
+.leaflet-control-zoom a {
+  background: rgba(10, 12, 20, 0.9) !important;
+  border: 1px solid var(--glass-border) !important;
+  color: #e2e8f0 !important;
+  backdrop-filter: blur(12px) !important;
+}
+.leaflet-control-zoom a:hover {
+  background: rgba(245, 197, 24, 0.15) !important;
+  color: var(--taxi-yellow) !important;
+}
+
+/* ─── Glass Panel ────────────────────────────────────────────────── */
+.glass-panel {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border-radius: 20px;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.04) inset,
+    0 32px 80px rgba(0, 0, 0, 0.6),
+    0 0 60px rgba(245, 197, 24, 0.03);
+}
+
+/* ─── Glow effects ───────────────────────────────────────────────── */
+.glow-yellow { box-shadow: 0 0 20px rgba(245, 197, 24, 0.3), 0 0 60px rgba(245, 197, 24, 0.1); }
+.glow-cyan   { box-shadow: 0 0 20px rgba(0, 212, 255, 0.3),  0 0 60px rgba(0, 212, 255, 0.1); }
+.glow-green  { box-shadow: 0 0 20px rgba(16, 185, 129, 0.3), 0 0 60px rgba(16, 185, 129, 0.1); }
+.text-glow-yellow { text-shadow: 0 0 20px rgba(245, 197, 24, 0.6); }
+.text-glow-cyan   { text-shadow: 0 0 20px rgba(0, 212, 255, 0.6); }
+
+/* ─── Pulse rings ────────────────────────────────────────────────── */
+@keyframes pulse-ring {
+  0%   { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(245, 197, 24, 0.5); }
+  70%  { transform: scale(1);    box-shadow: 0 0 0 12px rgba(245, 197, 24, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(245, 197, 24, 0); }
+}
+.pulse-ring { animation: pulse-ring 2s infinite; }
+
+/* ─── Shimmer & Skeleton Loaders ─────────────────────────────────── */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.skeleton-shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.03) 25%,
+    rgba(255, 255, 255, 0.12) 50%,
+    rgba(255, 255, 255, 0.03) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite ease-in-out;
+  border-radius: 8px;
+}
+
+/* ─── Spinner ────────────────────────────────────────────────────── */
+@keyframes spin-glow {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(245, 197, 24, 0.15);
+  border-top-color: var(--taxi-yellow);
+  border-radius: 50%;
+  animation: spin-glow 0.8s linear infinite;
+  filter: drop-shadow(0 0 6px var(--taxi-yellow));
+}
+
+/* ─── Gradient text ──────────────────────────────────────────────── */
+.gradient-text-yellow {
+  background: linear-gradient(135deg, #f5c518, #ff9500);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.gradient-text-cyan {
+  background: linear-gradient(135deg, #00d4ff, #0ea5e9);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ─── Step dot ───────────────────────────────────────────────────── */
+.step-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+}
+.step-dot-green  { background: #10b981; box-shadow: 0 0 8px #10b981; }
+.step-dot-red    { background: #ef4444; box-shadow: 0 0 8px #ef4444; }
+.step-dot-yellow { background: var(--taxi-yellow); box-shadow: 0 0 8px var(--taxi-yellow); }
+.step-dot-empty  { background: transparent; border: 2px dashed rgba(255,255,255,0.2); }
+
+/* ─── Dashed route line ──────────────────────────────────────────── */
+.route-line {
+  width: 2px;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(245,197,24,0.4) 0px,
+    rgba(245,197,24,0.4) 6px,
+    transparent 6px,
+    transparent 12px
+  );
+  flex-shrink: 0;
+}
+
+/* ─── Map cursor ─────────────────────────────────────────────────── */
+.leaflet-container.picking-pickup  { cursor: crosshair !important; }
+.leaflet-container.picking-dropoff { cursor: crosshair !important; }
+
+/* ─── Ticket dashes ──────────────────────────────────────────────── */
+.ticket-divider {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  overflow: hidden;
+}
+.ticket-dash {
+  height: 1px;
+  flex: 1;
+  background: repeating-linear-gradient(
+    to right,
+    rgba(255,255,255,0.1) 0px,
+    rgba(255,255,255,0.1) 6px,
+    transparent 6px,
+    transparent 12px
+  );
+}
+
+/* ─── Custom marker ──────────────────────────────────────────────── */
+.custom-marker-pickup, .custom-marker-dropoff {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  filter: drop-shadow(0 4px 12px rgba(0,0,0,0.8));
+}
+
+/* ─── Toast ─────────────────────────────────────────────────────── */
+.toast-container {
+  position: fixed;
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+}
+
+/* ─── Noise overlay for depth ─────────────────────────────────────── */
+.panel-noise::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  opacity: 0.4;
+  border-radius: inherit;
+}
+
+/* ─── Range slider ───────────────────────────────────────────────── */
+input[type=range] { -webkit-appearance: none; appearance: none; height: 4px; border-radius: 4px; outline: none; }
+input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 16px; height: 16px; border-radius: 50%; background: var(--taxi-yellow); cursor: pointer; box-shadow: 0 0 8px rgba(245,197,24,0.5); }
+
+/* ─── Map tiles — no filter needed (native dark tiles in use) ────── */
